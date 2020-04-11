@@ -37,18 +37,18 @@ class Snow(pygame.sprite.Sprite):
 
     def update(self):
         self.rect.y += self.speed
-        if self.rect.y > MAX_Y:
-            self.rect.y = -self.SNOW_SIZE  # снежинка падает вниз и плавно появляется сверху
+        if self.rect.top > MAX_Y:  # (MAX_Y if screen.get_height() == MAX_Y else MIN_Y):
+            self.rect.bottom = 0  # снежинка падает вниз и плавно появляется сверху
 
         n = random.randint(1, 3)
         if n == 1:  # направо
             self.rect.x += 2
-            if self.rect.x > MAX_X:
-                self.rect.x = -self.SNOW_SIZE
+            if self.rect.left > MAX_X:
+                self.rect.right = 0
         elif n == 2:  # налево
             self.rect.x -= 2
-            if self.rect.x < -self.SNOW_SIZE:
-                self.rect.x = MAX_X
+            if self.rect.right < 0:
+                self.rect.left = MAX_X
 
         self.rot = (self.rot + self.angle) % 360
         self.image = pygame.transform.rotate(self.image_orig, self.rot)
